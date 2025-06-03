@@ -14,9 +14,10 @@ git clone https://github.com/VandPerson/Simple-AI-Enabled-Web-Application.git
 cd Simple-AI-Enabled-Web-Application
 ```
 2) **Create a Virtual Environment**
+
 On Linux:
 ```bash
-python3 -m venv venv
+python3 -m venv .venv
 source .venv/bin/activate
 ```
 On Windows:
@@ -47,7 +48,7 @@ For observe all available APIs visit:
 
 ## Testing
 
-Run All Tests with `pytest`:
+Run All Tests with `pytest`:  
 On Linux:
 ```bash
 python3 -m pytest tests/
@@ -91,11 +92,12 @@ Services and schemas are isolated from the route logic for clean separation of c
 
 ## Known Limitations/Trade-Offs
 
-- Generated vectors are faked and were not actually created by OpenAI, as they were numpy random numbers instead of sent to the real LLM. This is because I don't have a real API key. As a result, the app working with faked vectors when retrieving context chunks.
+- Generated vectors are faked and were not actually created using OpenAI API. Faked vectors were created using `numpy` random numbers. This is because I don't have a real API key. As a result, the app working also with random generated vectors when retrieving context chunks.
 In theory, with a valid API key, everything should work as expected.  
-But first, need to regenerate `context_data.json` using `ETL.py`.  
-It will create the new `context_data.json` file in the `.dev` folder. The next step is to move it to the `database/` folder and replace the old one.  
+But first, need to regenerate `context_data.json` using `dev/ETL.py`.  
+Script will create the new `context_data.json` file in the `.dev` folder. The next step is to move it to the `database/` folder and replace the old one.  
 Then, provide the OpenAI API key in `chat_service.py` so the OpenAI API will function correctly.
+- `requirements.txt` and `requirements-dev.txt` were written manually to explicitly specify the core packages used.
 - Timestamps are not fully implemented.
 - There is no config file, so some settings are hardcoded.
 - There is no error handling.
