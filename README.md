@@ -2,6 +2,8 @@
 
 A FastAPI-based backend with Jinja2 frontend (server-rendered templates) for an AI assistant whom capable of contextual retrieval.
 
+![alt text](assets/chat_example.png)
+
 ---
 
 ## Setup Instructions
@@ -37,9 +39,10 @@ pip install -r requirements-dev.txt
 ```bash
 uvicorn main:app --reload
 ```
-The Chat UI will be available at: 'http://127.0.0.1:8000'
+The Chat UI will be available at:  
+http://127.0.0.1:8000
 
-For observe all available APIs visit:
+For observe all available APIs visit:  
 'http://127.0.0.1:8000/docs' for Swagger UI or 'http://127.0.0.1:8000/redoc'
 
 ## Testing
@@ -56,7 +59,7 @@ python -m pytest tests/
 
 ## Approach Explanation
 
-**Functionality:**
+### **Functionality:**
 Using FastAPI, two APIs were implemented.  
 The first, `/api/ask`, is for answering questions, and the second, `/api/history`, is for displaying previously asked user questions.
 
@@ -65,7 +68,7 @@ On the first page load, the history is automatically rendered in HTML.
 
 New questions are sent through `/api/ask` to the backend, where an answer is generated using a Retrieval-Augmented Generation approach with `gpt-4o-mini`.
 
-**Database:**
+### **Database:**
 For now, the app uses flat files to simulate database tables.  
 The `database/context_data.json` file contains relevant company information with generated vectors.  
 The `.dev` folder contains an ETL procedure to collect data from a list of files and generate relevant embeddings using `text-embedding-3-small`.  
@@ -73,17 +76,17 @@ The `database/user_data.json` file contains the history of user asked questions.
 The `database/database.py` file includes a class *DatabaseOperations* that simulates a connection to a database.  
 If inherit from this class and override its methods with a real database connection, all functionality will work the same way.
 
-**Retrieval-Augmented Generation:**
+### **Retrieval-Augmented Generation:**  
 For retrieval, a vector cosine similarity approach is used.  
 This allows semantically relevant results even when the query does not exactly match the keywords.  
 With this approach, the prompt includes the top-2 context chunks.
 
-**Language Model:**
+### **Language Model:**  
 The prompt sent to the LLM includes both the instructions and context chunks.  
 If `enable_history` is `True`, previous user messages are also included in the prompt.  
 By default, this is set to `False`, but it can be changed as parameter when calling the `/api/ask` endpoint.
 
-**Modular Design:**
+### **Modular Design:**  
 Services and schemas are isolated from the route logic for clean separation of concerns and easier testability.
 
 ## Known Limitations/Trade-Offs
