@@ -1,0 +1,5 @@
+Employees at BrewNest can access their digital pay stubs through the company's internal HR portal, called NestHR. The portal is available at nesthr.brewnest.eu and requires a company email login. New employees receive their credentials during onboarding.
+
+Pay stubs are uploaded on the 27th of each month, and past records are stored for up to 24 months. If employees forget their password, they can reset it via SMS or by contacting HR directly at hr@brewnest.eu.
+
+In-store team leads can also print pay summaries using the staff tablet under the “Admin Tools” section. Paper copies are no longer distributed starting March 2025.

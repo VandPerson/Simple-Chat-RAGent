@@ -1,0 +1,60 @@
+/*====================*/
+/* Messages */
+/*====================*/
+#display-container > ul {
+    list-style: none;
+}
+
+.message-item {
+    border-radius: 10px;
+    padding: 10px;
+    width: fit-content;
+    max-width: 500px;
+    margin: 10px 0;
+}
+
+.message-item-user {
+    background-color: #daffed;
+}
+
+.message-item-assistant {
+    background-color: #e9daff;
+    margin-left: auto;
+}
+
+#message-time {
+    color: grey;
+    font-size: 0.7rem;
+}
+
+/*====================*/
+/* Input */
+/*====================*/
+#input-container {
+    width: 100%;
+    height: 50px;
+    display: flex;
+}
+
+#message-input,
+#send-btn {
+    font-size: 1.1rem;
+    border: 4px solid #282035;
+    border-radius: 15px;
+
+    font-size: 1.1rem;
+}
+
+#message-input {
+    flex-grow: 1;
+    padding: 0 10px;
+}
+
+#send-btn {
+    width: 128px;
+    padding: 0 20px;
+
+    background-color: #282035;
+    color: white;
+}
+
