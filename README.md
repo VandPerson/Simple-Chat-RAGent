@@ -44,7 +44,7 @@ The Chat UI will be available at:
 http://127.0.0.1:8000
 
 For observe all available APIs visit:  
-'http://127.0.0.1:8000/docs' for Swagger UI or 'http://127.0.0.1:8000/redoc'
+http://127.0.0.1:8000/docs for Swagger UI or http://127.0.0.1:8000/redoc
 
 ## Testing
 
@@ -92,11 +92,11 @@ Services and schemas are isolated from the route logic for clean separation of c
 
 ## Known Limitations/Trade-Offs
 
-- Generated vectors are faked and were not actually created using OpenAI API. Faked vectors were created using `numpy` random numbers. This is because I don't have a real API key. As a result, the app working also with random generated vectors when retrieving context chunks.
+- Generated vectors are faked and were not actually created using OpenAI API. Faked vectors were created using `numpy` random numbers. This is because I don't have a real API key. As a result, the app working also with random generated vectors when retrieving context chunks.  
 In theory, with a valid API key, everything should work as expected.  
-But first, need to regenerate `context_data.json` using `dev/ETL.py`.  
-Script will create the new `context_data.json` file in the `.dev` folder. The next step is to move it to the `database/` folder and replace the old one.  
-Then, provide the OpenAI API key in `chat_service.py` so the OpenAI API will function correctly.
+But first, need to regenerate `context_data.json` using `dev/ETL.py` with valid API key. Script will create the new `context_data.json` file in the `.dev` folder.  
+The next step is to move it to the `database/` folder and replace the old one.  
+Then, provide the OpenAI API key in `chat_service.py` so the OpenAI LLM and RAG will function correctly.
 - `requirements.txt` and `requirements-dev.txt` were written manually to explicitly specify the core packages used.
 - Timestamps are not fully implemented.
 - There is no config file, so some settings are hardcoded.

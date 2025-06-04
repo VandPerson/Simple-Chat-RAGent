@@ -41,7 +41,7 @@ def main():
         
         df.loc[len(df)] = [file.name, file.stem, article, embedding]
         
-    df.to_json(MAIN_DIR / "data.json", orient="records")
+    df.to_json(MAIN_DIR / "context_data.json", orient="records")
 
 
 

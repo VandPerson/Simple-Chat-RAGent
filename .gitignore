@@ -1,17 +1,15 @@
+# VS Code
+.vscode/
+
+# Virtual environments
+.env/
+.venv/
+venv/
+.env.bak/
+
 # Byte-compiled / cache
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
-
-# Virtual environments
-venv/
-.env/
-.env.bak/
-.venv/
-
-# VS Code
-.vscode/
 
 # Pytest and coverage
 .cache/
