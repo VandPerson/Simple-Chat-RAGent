@@ -1,6 +1,3 @@
-# Basic
-from typing import List
-
 # LLM
 from openai import OpenAI
 
@@ -10,61 +7,94 @@ from database import DatabaseOperations
 
 
 OPENAI_KEY = ""
-client = OpenAI(api_key=OPENAI_KEY)
-
-database = DatabaseOperations()
 
 
 
-def get_answer(question: str, enable_history: bool) -> List[dict]:
+class ChatService:
+    def __init__(self):
+        self.database = DatabaseOperations()
+        self.openai_client = OpenAI(api_key=OPENAI_KEY) if OPENAI_KEY else None
 
-    messages = []
+        self.embedding_model_name = "text-embedding-3-small"
+        self.embedding_dimensions = 512
+        self.llm_model_name = "gpt-4o-mini"
 
-    if OPENAI_KEY:
-        # Generate system insruction for LLM
-        for instruction in database.select_llm_instructions():
-            messages.append({"role": "system", "content": instruction})
+    def get_answer(self, question: str, include_history: bool) -> dict:
+        # Save user question to DB
+        user_msg_row = {
+            "role": "user",
+            "content": question
+        }
+        self.database.insert_message(user_msg_row)
         
-        # Retrieve relative context and provide for LLM as system insruction
-        response = client.embeddings.create(
-            model="text-embedding-3-small",
-            dimensions=512,
-            input=question,
+        # Return fake answer if OpenAI client is not initialized
+        if not self.openai_client:
+            return self._fallback_answer()
+        
+
+        prompt_messages = []
+
+        # Generate system instruction for LLM
+        for instruction in self.database.select_llm_instructions():
+            prompt_messages.append({
+                "role": "system",
+                "content": instruction
+            })
+        
+        # Retrieve relevant context and provide for LLM as system insruction
+        if context := self._get_context(question):
+            prompt_messages.append({
+                "role": "system",
+                "content": f'''<CONTEXT>\n{context}\n</CONTEXT>'''
+            })
+
+        # Get chat user history and add to chat
+        if include_history:
+            history = self.database.select_history()
+            prompt_messages.extend(history)
+
+        # Add user meessage to prompt
+        prompt_messages.append(user_msg_row)
+        
+        # Send to LLM for proceed messages
+        answer = self._get_completion(prompt_messages)
+        llm_msg_row = {
+            "role": "assistant",
+            "content": answer
+        }
+        self.database.insert_message(llm_msg_row)
+
+        return llm_msg_row
+    
+    def _fallback_answer(self) -> dict:
+        context = self.database.retrive_context()
+        answer = f"<b>Assistant would answered your question with CONTEXT:</b><br>{context}"
+        result = {"role": "assistant", "content": answer}
+        self.database.insert_message(result)
+        return result
+
+    def _get_context(self, text: str) -> str:
+        response = self.openai_client.embeddings.create(
+            model=self.embedding_model_name,
+            dimensions=self.embedding_dimensions,
+            input=text,
         )
         embedding = response["data"][0]["embedding"]
 
-        context = database.retrive_context(embedding)
-        if context:
-            sys_context = f'''<CONТEXT>\n{context}\n</CONТEXT>'''
-            messages.append({"role": "system", "content": sys_context})
+        context = self.database.retrive_context(embedding)
 
-        if enable_history:
-            # Get chat use history and add to chat
-            history = database.select_history()
-            messages.extend(history)
-            print(history) 
-
-    # Add user question to chat and DB User Table
-    messages.append({"role": "user", "content": question})
-    database.insert_message(messages[-1])
+        return context
     
-    if OPENAI_KEY:
-        # Send to LLM for proceed answer
-        completion = client.chat.completions.create(
-            model = "gpt-4o-mini",
+    def _get_completion(self, messages: list[dict]) -> str:
+        completion = self.openai_client.chat.completions.create(
+            model = self.llm_model_name,
             messages = messages,
             temperature = 0.05,
-            max_tokens = 512)
-        
-        answer = completion.choices[0].message.content
-    else:
-        context = database.retrive_context()
-        answer = f"<b>Assistant answered your question with CONTEXT:</b> \n{context}"
-    
-    result = {"role": "assistant", "content": answer}
-    database.insert_message(result)
-    return result
+            max_tokens = 512
+        )
+        content = completion.choices[0].message.content
 
+        return content
 
-def get_user_history() -> List[dict]:
-    return database.select_history()
+    def get_user_history(self) -> list[dict]:
+        return self.database.select_history()

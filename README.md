@@ -84,7 +84,7 @@ With this approach, the prompt includes the top-2 context chunks.
 
 ### **Language Model:**  
 The prompt sent to the LLM includes both the instructions and context chunks.  
-If `enable_history` is `True`, previous user messages are also included in the prompt.  
+If `include_history` is `True`, previous user messages are also included in the prompt.  
 By default, this is set to `False`, but it can be changed as parameter when calling the `/api/ask` endpoint.
 
 ### **Modular Design:**  

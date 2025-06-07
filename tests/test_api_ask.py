@@ -6,6 +6,7 @@ import pytest
 
 # Testing module
 from main import app
+from services import ChatService 
 
 
 
@@ -13,13 +14,13 @@ client = TestClient(app)
 
 @pytest.fixture
 def mock_get_answer(monkeypatch):
-    def fake_get_answer(content, enable_history):
+    def fake_get_answer(self, content, include_history):
         return {
             "role": "assistant",
             "content": "<dynamic response>",
             "timestamp": "<not implemented>",
         }
-    monkeypatch.setattr("services.get_answer", fake_get_answer)
+    monkeypatch.setattr(ChatService, "get_answer", fake_get_answer)
 
 
 
