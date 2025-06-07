@@ -32,14 +32,14 @@ def mock_database():
 
 def test_retrieve_context_with_vector_A(mock_database):
     test_vector = [1.0, 0.0]
-    result = mock_database.retrive_context(vector=test_vector)
+    result = mock_database.retrieve_context(vector=test_vector)
     assert "Paragraph A" in result
     assert "Paragraph C" in result
     assert result.index("Paragraph A") < result.index("Paragraph C")
 
 def test_retrieve_context_with_vector_B(mock_database):
     test_vector = [0.0, 1.0]
-    result = mock_database.retrive_context(vector=test_vector)
+    result = mock_database.retrieve_context(vector=test_vector)
     assert "Paragraph B" in result
     assert "Paragraph C" in result
     assert result.index("Paragraph B") < result.index("Paragraph C")

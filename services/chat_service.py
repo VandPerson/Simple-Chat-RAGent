@@ -67,7 +67,7 @@ class ChatService:
         return llm_msg_row
     
     def _fallback_answer(self) -> dict:
-        context = self.database.retrive_context()
+        context = self.database.retrieve_context()
         answer = f"<b>Assistant would answered your question with CONTEXT:</b><br>{context}"
         result = {"role": "assistant", "content": answer}
         self.database.insert_message(result)
@@ -81,7 +81,7 @@ class ChatService:
         )
         embedding = response["data"][0]["embedding"]
 
-        context = self.database.retrive_context(embedding)
+        context = self.database.retrieve_context(embedding)
 
         return context
     
