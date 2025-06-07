@@ -23,6 +23,13 @@ function sendMessage() {
         createChatItem("user", question, data.timestamp);
         document.getElementById("message-input").value = "";
         createChatItem(data.role, data.content, data.timestamp);
+
+        // Scroll messages to the bottom
+        let displayContainer = document.getElementById("display-container");
+        displayContainer.scrollTo({
+            top: displayContainer.scrollHeight,
+            behavior: 'smooth'
+        });
     })
     .catch(error => {
         console.error("Error while fetching: ", error);
