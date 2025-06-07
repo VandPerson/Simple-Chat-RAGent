@@ -78,7 +78,7 @@ class DatabaseOperations:
         """
 
         emmbedding = vector if vector else np.random.rand(512).tolist()
-        emmbedding = np.array(vector).reshape(1, -1)
+        emmbedding = np.array(emmbedding).reshape(1, -1)
         
         df_data = self.df_context_table
 
