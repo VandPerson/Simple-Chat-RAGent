@@ -1,6 +1,6 @@
-# Full-Stack & AI-Enabled Web Application
+# Simple-Chat-RAGent
 
-A FastAPI-based backend with Jinja2 frontend (server-rendered templates) for an AI assistant whom capable of contextual retrieval.
+A FastAPI backend with a server-rendered frontend (Jinja2) for an AI assistant that can perform contextual retrieval (RAG).
 
 ![alt text](assets/chat_example.png)
 
