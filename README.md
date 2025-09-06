@@ -1,12 +1,29 @@
 # Simple-Chat-RAGent
 
-A FastAPI backend with a server-rendered frontend (Jinja2) for an AI assistant that can perform contextual retrieval (RAG).
-
 ![alt text](assets/chat_example.png)
 
----
+## Table of Contents
 
-## Setup Instructions
+1. [About](#about)
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [How it works](#how-it-works)
+    - [APIs & Functionality](#functionality)
+    - [Database Simulation](#database)
+    - [RAG Retrieval](#retrieval-augmented-generation)
+    - [Language Model Integration](#language-model-integration)
+    - [Modular Design](#modular-design)
+5. [Limitations & Trade-Offs](#limitations--trade-offs)
+6. [Development](#development)
+    - [Testing](#testing)
+
+## About
+
+A FastAPI backend with a server-rendered frontend (Jinja2) for an AI assistant that can perform contextual retrieval (RAG).
+
+The project serves as a personal playground to explore end-to-end web application design and the integration of AI/ML into real-world applications, highlighting practical Python and AI/ML experience.
+
+## Installation
 
 1) **Clone the Repository**
 ```bash
@@ -34,7 +51,7 @@ Or if are planning to do some development and testing:
 pip install -r requirements-dev.txt
 ```
 
-## Execution Instructions
+## Usage
 
 **Start the FastAPI Server**
 ```bash
@@ -46,19 +63,7 @@ http://127.0.0.1:8000
 For observe all available APIs visit:  
 http://127.0.0.1:8000/docs for Swagger UI or http://127.0.0.1:8000/redoc
 
-## Testing
-
-Run All Tests with `pytest`:  
-On Linux:
-```bash
-python3 -m pytest tests/
-```
-On Windows:
-```powershell
-python -m pytest tests/
-```
-
-## Approach Explanation
+## How it works
 
 ### **Functionality:**
 Using FastAPI, two APIs were implemented.  
@@ -82,7 +87,7 @@ For retrieval, a vector cosine similarity approach is used.
 This allows semantically relevant results even when the query does not exactly match the keywords.  
 With this approach, the prompt includes the top-2 context chunks.
 
-### **Language Model:**  
+### **Language Model Integration:**  
 The prompt sent to the LLM includes both the instructions and context chunks.  
 If `include_history` is `True`, previous user messages are also included in the prompt.  
 By default, this is set to `False`, but it can be changed as parameter when calling the `/api/ask` endpoint.
@@ -90,7 +95,7 @@ By default, this is set to `False`, but it can be changed as parameter when call
 ### **Modular Design:**  
 Services and schemas are isolated from the route logic for clean separation of concerns and easier testability.
 
-## Known Limitations/Trade-Offs
+## Limitations & Trade-Offs
 
 - Generated vectors are faked and were not actually created using OpenAI API. Faked vectors were created using `numpy` random numbers. This is because I don't have a real API key. As a result, the app working also with random generated vectors when retrieving context chunks.  
 In theory, with a valid API key, everything should work as expected.  
@@ -106,3 +111,19 @@ Then, provide the OpenAI API key in `chat_service.py` so the OpenAI LLM and RAG 
 - There are some UI issues that can be improved.
 - If need delete history, need to delete `user_data.json` file.
 - Not all functions, modules, classes, etc. are properly documented.
+
+***
+
+## Development
+
+### Testing
+
+Run All Tests with `pytest`:  
+On Linux:
+```bash
+python3 -m pytest tests/
+```
+On Windows:
+```powershell
+python -m pytest tests/
+```
