@@ -27,7 +27,7 @@ The project serves as a personal playground to explore end-to-end web applicatio
 
 1) **Clone the Repository**
 ```bash
-git clone https://github.com/VandPerson/simple-rag-chatbot.git
+git clone https://github.com/wandperson/simple-rag-chatbot.git
 cd simple-rag-chatbot
 ```
 2) **Create a Virtual Environment**
