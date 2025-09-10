@@ -97,11 +97,6 @@ Services and schemas are isolated from the route logic for clean separation of c
 
 ## Limitations & Trade-Offs
 
-- Generated vectors are faked and were not actually created using OpenAI API. Faked vectors were created using `numpy` random numbers. This is because I don't have a real API key. As a result, the app working also with random generated vectors when retrieving context chunks.  
-In theory, with a valid API key, everything should work as expected.  
-But first, need to regenerate `context_data.json` using `dev/ETL.py` with valid API key. Script will create the new `context_data.json` file in the `.dev` folder.  
-The next step is to move it to the `database/` folder and replace the old one.  
-Then, provide the OpenAI API key in `chat_service.py` so the OpenAI LLM and RAG will function correctly.
 - `requirements.txt` and `requirements-dev.txt` were written manually to explicitly specify the core packages used.
 - Timestamps are not fully implemented.
 - There is no config file, so some settings are hardcoded.
@@ -127,3 +122,12 @@ On Windows:
 ```powershell
 python -m pytest tests/
 ```
+
+#### Flexibility
+The app can run even **without an OpenAI API key**.\
+In this case, instead of real vectors, it uses pseudo-random vector generation with `numpy`. This makes it easy to test, experiment, and understand how the app works.
+
+When you're ready for full LLM + RAG functionality, just add in a real API key:  
+1. Run `dev/ETL.py` with a valid key to generate a new `context_data.json` inside the `.dev` folder.  
+2. Move that file into the `database/` folder to replace the old one.  
+3. Add your OpenAI API key in `chat_service.py`.
